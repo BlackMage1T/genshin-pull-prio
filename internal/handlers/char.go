@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/BlackMage1T/genshin-pull-prio/internal/models"
 	"github.com/gin-gonic/gin"
@@ -12,7 +13,7 @@ import (
 // GetCharacters now accepts the db and RETURNS a function Gin can use
 func GetCharacters(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		name := c.Param("name")
+		name := strings.Title(strings.ToLower(c.Param("name")))
 
 		if name == "" {
 			var characters []models.Character
