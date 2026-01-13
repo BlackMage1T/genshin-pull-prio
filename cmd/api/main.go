@@ -5,6 +5,7 @@ import (
 
 	"github.com/BlackMage1T/genshin-pull-prio/internal/database"
 	"github.com/BlackMage1T/genshin-pull-prio/internal/handlers"
+	"github.com/BlackMage1T/genshin-pull-prio/internal/models"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,6 +33,16 @@ func main() {
 
 	r.GET("/characters", h)       // Returns list
 	r.GET("/characters/:name", h) // Returns specific char
+	r.GET("/debug/stats", func(c *gin.Context) {
+		var charCount, talentCount int64
+		db.Model(&models.Character{}).Count(&charCount)
+		db.Model(&models.Talent{}).Count(&talentCount)
+
+		c.JSON(200, gin.H{
+			"characters_in_db": charCount,
+			"talents_in_db":    talentCount,
+		})
+	})
 
 	port := os.Getenv("PORT")
 	if port == "" {

@@ -17,7 +17,11 @@ func GetCharacters(db *gorm.DB) gin.HandlerFunc {
 
 		if name == "" {
 			var characters []models.Character
-			if err := db.Find(&characters).Error; err != nil {
+			err := db.Preload("SkillTalents.Upgrades").
+				Preload("PassiveTalents").
+				Preload("Constellations").
+				Find(&characters).Error
+			if err != nil {
 				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 				return
 			}

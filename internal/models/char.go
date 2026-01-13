@@ -1,8 +1,6 @@
 package models
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
@@ -20,9 +18,6 @@ type Character struct {
 	SkillTalents   []Talent `json:"skillTalents" gorm:"foreignKey:CharacterID"`
 	PassiveTalents []Talent `json:"passiveTalents" gorm:"foreignKey:CharacterID"`
 	Constellations []Talent `json:"constellations" gorm:"foreignKey:CharacterID"`
-	// CreatedAt      time.Time `gorm:"autoCreateTime:false"`
-	// UpdatedAt      time.Time `gorm:"autoCreateTime:false"`
-	// DeletedAt      time.Time `gorm:"autoCreateTime:false"`
 }
 
 type Talent struct {
@@ -34,17 +29,11 @@ type Talent struct {
 	Upgrades    []UpgradeLevel `json:"upgrades" gorm:"foreignKey:TalentID"`
 	SkillType   string         `json:"type"`
 	Level       int            `json:"level"`
-	CreatedAt   time.Time      `gorm:"autoCreateTime:false"`
-	UpdatedAt   time.Time      `gorm:"autoCreateTime:false"`
-	DeletedAt   time.Time      `gorm:"autoCreateTime:false"`
 }
 
 type UpgradeLevel struct {
 	gorm.Model
-	TalentID  uint
-	Name      string    `json:"name"`
-	Value     string    `json:"value"`
-	CreatedAt time.Time `gorm:"autoCreateTime:false"`
-	UpdatedAt time.Time `gorm:"autoCreateTime:false"`
-	DeletedAt time.Time `gorm:"autoCreateTime:false"`
+	TalentID uint
+	Name     string `json:"name"`
+	Value    string `json:"value"`
 }
